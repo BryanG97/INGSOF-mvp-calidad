@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'package:mvp_calidad/presentation/screens/product_analytics/product_analytics_screen.dart';
-import 'package:mvp_calidad/presentation/screens/product_check_list/product_check_list_screen.dart';
 import 'package:mvp_calidad/presentation/screens/product_list/product_list_screen.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {

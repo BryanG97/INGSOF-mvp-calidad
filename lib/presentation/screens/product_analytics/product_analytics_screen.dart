@@ -6,6 +6,20 @@ class ProductAnalyticsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/pagina_en_construccion.png', height: 300, width: 300),
+            const Text(
+                    'Disponible próximamente.',
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 49, 110, 190),),
+            ),
+          ],
+
+        ),
+      ),
+    );
   }
 }

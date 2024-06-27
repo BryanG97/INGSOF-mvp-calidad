@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  font_awesome_flutter: ^10.3.0
   go_router: ^14.2.0
   flutter_meedu: ^8.5.0
   fluid_bottom_nav_bar: ^1.4.0

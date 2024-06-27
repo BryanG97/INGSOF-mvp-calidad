@@ -4,7 +4,7 @@ class ProductEntity {
   final String productName;
   final String productDescription;
   final String productImage;
-  final List<ProductCheckListEntity>? productCheckList;
+  List<ProductCheckListEntity>? productCheckList;
   
   ProductEntity({
     required this.productId,
@@ -17,12 +17,12 @@ class ProductEntity {
 }
 
 class ProductCheckListEntity {
-  final String productId;
-  final String productCheck;
+  String itemName;
+  String itemValue;
 
   ProductCheckListEntity({
-    required this.productId,
-    required this.productCheck,
+    required this.itemName, 
+    required this.itemValue, 
   });
 
 }
