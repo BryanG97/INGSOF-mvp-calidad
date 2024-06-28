@@ -31,8 +31,6 @@ class _ProductsListState extends State<ProductsList> {
   @override
   Widget build(BuildContext context) {
 
-    productProvider.read.getInitialProducts();
-
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 184, 194, 194),
       body: SafeArea(
@@ -68,11 +66,6 @@ class _ProductsListState extends State<ProductsList> {
                           itemCount: productList.length,
                           itemBuilder: (context, index) {
                             final product = productList[index];
-
-                            /* return const ListTile(
-                              title:  Text('Titulo'),
-                              subtitle:  Text('Descripcion'),
-                            ); */
 
                             return InkWell(
                               onTap: (){
@@ -168,6 +161,20 @@ class ProductCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
                 ),
+
+                productEntity.productCheckList == null?
+                  const Text(
+                    'PENDIENTE',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red),
+                  ) :
+                  const Text(
+                    'LISTO',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green),
+                  ),
               ],
             ),
 

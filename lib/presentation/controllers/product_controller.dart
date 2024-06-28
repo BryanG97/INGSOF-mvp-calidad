@@ -2,19 +2,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_meedu/meedu.dart';
 import 'package:mvp_calidad/domain/entities/product_Entity.dart';
+import 'package:mvp_calidad/domain/entities/statistical_values_entity.dart';
 
 class ProductController extends SimpleNotifier {
 
   List<ProductEntity> _productList = [];
   List<ProductCheckListEntity> _checkListList = [];
   List<ProductCheckListEntity> _checkListToAdd = [];
+  List<StatisticalValuesEntity> _statisticalValues = [];
 
   //GETTERS
   List<ProductEntity>? get getProductList => _productList; 
 
   List<ProductCheckListEntity>? get getCheckListValues => _checkListList; 
 
-  List<ProductCheckListEntity>? get getCheckListToAdd => _checkListToAdd; 
+  List<ProductCheckListEntity>? get getCheckListToAdd => _checkListToAdd;
+
+  List<StatisticalValuesEntity>? get getStatisticalValues => _statisticalValues; 
 
   //SETTERS
   set setProductToList(ProductEntity product){
@@ -27,6 +31,10 @@ class ProductController extends SimpleNotifier {
   
   set setValuesToCheckListToAdd(ProductCheckListEntity checkListValue){
     _checkListToAdd.add(checkListValue);
+  }
+  
+  set setStatisticalValue(StatisticalValuesEntity statisticalValue){
+    _statisticalValues.add(statisticalValue);
   }
 
   /// To load product list
@@ -52,14 +60,53 @@ class ProductController extends SimpleNotifier {
       productDescription: 'Sistemas mecanicos para mover vehículos.', 
       productImage: 'assets/images/banda.jpg'
     );
+    
+    final ProductEntity product4 = ProductEntity(
+      productId: 'M4', 
+      productName: 'ATORNILLADORES AUTOMÁTICOS', 
+      productDescription: 'Para apretar tornillos y pernos con precisión.', 
+      productImage: 'assets/images/atornilladora.jpg'
+    );
+
+    final ProductEntity product5 = ProductEntity(
+      productId: 'M5', 
+      productName: 'PRENSA HIDRÁULICA', 
+      productDescription: 'Utilizadas para dar forma a las piezas metálicas mediante estampado.', 
+      productImage: 'assets/images/prensa.jpg'
+    );
+    final ProductEntity product6 = ProductEntity(
+      productId: 'M6', 
+      productName: 'AGV', 
+      productDescription: 'Vehículos guiados automáticamente que transportan piezas y ensamblajes a lo largo de la línea de producción.', 
+      productImage: 'assets/images/avg.jpg'
+    );
+    final ProductEntity product7 = ProductEntity(
+      productId: 'M7', 
+      productName: 'CORTADORA LASER', 
+      productDescription: 'Utilizadas para cortar con precisión piezas metálicas de diversas formas y tamaños.', 
+      productImage: 'assets/images/laser.jpg'
+    );
+    
+    final ProductEntity product8 = ProductEntity(
+      productId: 'M8', 
+      productName: 'INFLADOR DE LLANTAS', 
+      productDescription: 'Utilizadas para inflar llantas con nitrógeno', 
+      productImage: 'assets/images/inflador.jpg'
+    );
 
     _productList.add(product1);
     _productList.add(product2);
     _productList.add(product3);
+    _productList.add(product4);
+    _productList.add(product5);
+    _productList.add(product6);
+    _productList.add(product7);
+    _productList.add(product8);
 
     // INIT CHECK LIST VALUES
     getCheckList();
 
+    notify();
   }
 
   /// To load checklist items
@@ -104,6 +151,58 @@ class ProductController extends SimpleNotifier {
     }catch(e){
       debugPrint('Product with id ${product.productId} not found.');
     }
+
+    notify();
+  }
+
+  // METHOD TO GENERATE STATISTICAL VALUES
+  getStatisticalValuesToShow(){
+    _statisticalValues = [];
+    String yesTitle = 'SI';
+    String noTitle = 'NO';
+    Color yesColor= Colors.green;
+    Color noColor = Colors.red;
+
+    for (var checkListItem in _checkListList) {
+
+      StatisticalValuesEntity statisticalValue;
+      double yesValue = 0;
+      double noValue = 0;
+
+      for(var product in _productList){
+
+        if(product.productCheckList != null){
+          yesValue += (product.productCheckList?.where((element) => 
+            element.itemValue == checkListItem.itemValue).length?? 0).toDouble();
+        }
+
+      }
+
+      noValue = _productList.length - yesValue;
+
+      //Get values in porcentage
+      yesValue = (yesValue/_productList.length) * 100;
+      noValue = (noValue/_productList.length) * 100;
+
+      //Build statistical value object
+      statisticalValue = StatisticalValuesEntity(
+        statisticalId: checkListItem.itemValue,
+        yesValue: StatisticalObjetcEntity(
+          title: yesTitle,
+          color: yesColor,
+          value: yesValue
+        ),
+        noValue: StatisticalObjetcEntity(
+          title: noTitle,
+          color: noColor,
+          value: noValue
+        ),
+      );
+
+      _statisticalValues.add(statisticalValue);
+
+    }
+
   }
 
 }
